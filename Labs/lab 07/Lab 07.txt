@@ -1,0 +1,56 @@
+-- Question 1: Display the name and department number for those employees who work in the same department as the employee who holds the name 'Martin'.
+select e.ename, e.deptno
+from emp e
+where e.deptno = (select deptno from emp where ename = 'MARTIN');
+
+-- Question 2: Fetch the names of managers who earn the highest salary.
+select e.ename
+from emp e
+where e.empno in (select mgr from emp where sal = (select max(sal) from emp));
+
+-- Question 3: Print the name of employees having the highest salary in each department.
+select e.ename, e.deptno
+from emp e
+where e.sal = (select max(sal) from emp where deptno = e.deptno);
+
+-- Question 4: Display the location, department name, and number of those departments where at least 2 employees are working.
+select d.loc, d.dname, count(e.ename)
+from emp e
+join dept d on e.deptno = d.deptno
+group by d.dname, d.loc
+having count(e.ename) >= 2;
+
+-- Question 5: Display the name of the department, average salary, and number of employees working in that department who got commission.
+select d.dname, avg(e.sal), count(e.deptno)
+from emp e
+join dept d on e.deptno = d.deptno
+where e.comm is not null
+group by d.dname;
+
+-- Question 6: Display all grade 4 and 5 analysts and managers.
+select e.ename, e.job
+from emp e
+join salgrade s on e.sal between s.losal and s.hisal
+where (e.job = 'ANALYST' or e.job = 'MANAGER') and s.grade in (4, 5);
+
+-- Question 7: List the employees of department no 20 whose jobs are the same as department no 10.
+select e.ename, e.job
+from emp e
+where e.deptno = 20 and e.job in (select job from emp where deptno = 10);
+
+-- Question 8: Find the highest-paid employee of the sales department.
+select e.ename, e.sal
+from emp e
+where e.deptno = (select deptno from dept where dname = 'SALES')
+and e.sal = (select max(sal) from emp where deptno = (select deptno from dept where dname = 'SALES'));
+
+-- Question 9: List the employees in department 20 whose salary is greater than the average salary of department 10 employees.
+select e.ename, e.sal
+from emp e
+where e.deptno = 20 and e.sal > (select avg(sal) from emp where deptno = 10);
+
+-- Question 10: Find all the employees who earn the minimum salary for each job, sorted in ascending order.
+select e.ename, e.job, e.sal
+from emp e
+where e.sal = (select min(sal) from emp where job = e.job)
+order by e.job, e.sal;
