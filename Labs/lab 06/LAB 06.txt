@@ -1,0 +1,58 @@
+-- question 1: list all employees who have not received any commission
+select ename
+from emp
+where comm is null;
+
+-- question 2: list employees who are not managers but have subordinates with higher salaries
+select ename
+from emp
+where mgr is null
+and job != 'MANAGER'
+and sal > (select sal from emp where ename = 'MANAGER');
+
+-- question 3: find the employee with the highest salary who does not have a manager
+select ename
+from emp
+where mgr is null
+and sal = (select max(sal) from emp where mgr is null);
+
+-- question 4: find the employee with the longest tenure in the company
+select ename
+from emp
+where hiredate = (select min(hiredate) from emp);
+
+-- question 5: display sum and average salary of department 10
+select ename, sum(sal), avg(sal)
+from emp
+where deptno = 10
+group by ename;
+
+-- question 6: list employees who have not received a commission and have a manager
+select ename
+from emp
+where comm is null
+and mgr is not null;
+
+-- question 7: find the departments with the highest number of employees and display department names with employee count
+select d.dname, count(e.ename) as employee_count
+from emp e
+join dept d on e.deptno = d.deptno
+group by d.dname
+order by employee_count desc;
+
+-- question 8: identify the lowest-paid employee in each department and display their names, job titles, and salaries
+select e.ename, e.job, e.sal
+from emp e
+where e.sal = (select min(sal) from emp where deptno = e.deptno);
+
+-- question 9: list employees who have the same manager and earn more than the average salary of their respective department
+select e.ename, e.job, e.sal
+from emp e
+where e.sal > (select avg(a.sal) from emp a where a.deptno = e.deptno)
+and e.mgr is not null;
+
+-- question 10: retrieve the most recently hired employee in each department, displaying their names, hire dates, and the name of their manager
+select e.ename, e.hiredate, m.ename as manager_name
+from emp e
+join emp m on e.mgr = m.empno
+where e.hiredate = (select max(hiredate) from emp where deptno = e.deptno);
