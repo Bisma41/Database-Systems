@@ -1,0 +1,103 @@
+-- Question 1: Delete id number 30 in Bonus table
+
+delete from bonus
+where worker_id = 30;
+
+-- Question 2: Insert a record in Salgrade table (DUMMY RECORD)
+
+insert into salgrade (grade, losal, hisal)
+values (6, 3000, 5000);
+
+-- Question 3: Update a record in Employee table which has id 22 (DUMMY RECORD)
+
+update employee
+set name = 'dummy name', job = 'developer', mgr = 101, hiredate = '2024-01-01', sal = 60000, comm = 500, deptno = 2
+where no = 22;
+
+-- Question 4: Insert records into employees table
+
+insert into employees (employee_number, last_name, first_name, salary, dept_id)
+values (1003, 'everest', 'brad', 71000, 501);
+insert into employees (employee_number, last_name, first_name, salary, dept_id)
+values (1004, 'horvath', 'jack', 42000, 502);
+insert into employees (last_name, first_name, salary, dept_id)
+values ('anderson', 'jane', 57500, 503);
+insert into employees (employee_number, last_name, first_name, salary, dept_id)
+values (1005, 'johnson', 'sally', 58000, 505);
+
+-- Question 5: Update all attributes of employees table where dept_id is 503
+
+update employees
+set employee_number = 1006, last_name = 'smith', first_name = 'alex', salary = 62000, dept_id = 503
+where dept_id = 503;
+
+-- Question 6: Update last_name into Jones where employee_number is 1004
+
+update employees
+set last_name = 'jones'
+where employee_number = 1004;
+
+-- Question 7: Update salary to 100,000 where employee_number is 1002
+
+update employees
+set salary = 100000
+where employee_number = 1002;
+
+-- Question 8: Update first_name into your name where last_name is Anderson
+
+update employees
+set first_name = 'bisma'
+where last_name = 'anderson';
+
+-- Question 9: Apply changes from questions 5 to 8 on a new table
+
+create table new_employees as
+select * from employees;
+
+-- Applying the updates on the new table
+
+update new_employees
+set employee_number = 1006, last_name = 'smith', first_name = 'alex', salary = 62000, dept_id = 503
+where dept_id = 503;
+update new_employees
+set last_name = 'jones'
+where employee_number = 1004;
+update new_employees
+set salary = 100000
+where employee_number = 1002;
+update new_employees
+set first_name = 'bisma'
+where last_name = 'anderson';
+
+-- Question 10: Delete a record from employees table where dept_id is 500
+
+delete from employees
+where dept_id = 500;
+
+-- Question 11: Delete a record from employees table where employee_number is 1004
+
+delete from employees
+where employee_number = 1004;
+
+-- Question 12: Apply changes from questions 10 and 11 on the new table
+
+delete from new_employees
+where dept_id = 500;
+delete from new_employees
+where employee_number = 1004;
+
+-- Question 13: Insert a record into Dept table
+
+insert into department (deptno, dname, loc)
+values (10, 'marketing', 'new york');
+
+-- Question 14: Delete a record in Title table where worker_ID is 11
+
+delete from title
+where worker_id = 11;
+
+-- Question 15: Update a record in Worker table where worker_ID is 120
+
+update worker
+set first_name = 'john', last_name = 'doe', sal = 75000, joining_date = '2022-05-15', department = 'hr'
+where worker_id = 120;
