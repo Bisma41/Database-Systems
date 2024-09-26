@@ -1,0 +1,32 @@
+-- question 0: display all records with all columns of a table named emp
+select * from emp;
+
+-- question 1: display all records with all columns of a table named dept
+select * from dept;
+
+-- question 2: display ename and department number of all employees in departments 20 and 30 in alphabetical order by ename, and length of name greater than 4
+select ename, deptno 
+from emp
+where deptno in (20, 30) and length(ename) > 4
+order by ename;
+
+-- question 3: display all records with all columns of a table named salgrade
+select * from salgrade;
+
+-- question 4: display empno, deptno, ename, mgr, hiredate of employees where manager number is 7368
+select empno, deptno, ename, mgr, hiredate 
+from emp
+where mgr = 7368;
+
+-- question 5: display department number, department name, and department location
+select deptno, dname, loc 
+from dept;
+
+-- question 6: calculate the annual salary of employees after salary is multiplied by 12, name it as "annual salary"
+select ename, (sal * 12) as "annual salary" 
+from emp;
+
+-- question 7: show names of all employees and hire date where department number is not greater than 10
+select ename, hiredate 
+from emp
+where deptno <= 10;
