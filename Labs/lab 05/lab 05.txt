@@ -1,0 +1,58 @@
+-- question 1: display the department name, employee's name, and location who earns a commission
+select d.dname, e.ename, d.loc
+from emp e
+join dept d on e.deptno = d.deptno
+where e.comm is not null;
+
+-- question 2: calculate the remainder of salary after dividing by 300 for employees whose job title is manager
+select ename, sal, mod(sal, 300) as remainder
+from emp
+where job = 'MANAGER';
+
+-- question 3: display hire date, commission, department name, location, salary, and grade
+select e.hiredate, e.comm, d.dname, d.loc, e.sal, s.grade
+from emp e
+join dept d on e.deptno = d.deptno
+join salgrade s on e.sal between s.losal and s.hisal;
+
+-- question 4: display highest, lowest, sum, average salary, and number of rows in emp table
+select round(max(sal)) as highest_salary, round(min(sal)) as lowest_salary, 
+       round(sum(sal)) as total_salary, round(avg(sal)) as average_salary, 
+       count(*) as total_employees
+from emp;
+
+-- question 5: display sum and average salary of department 10
+select sum(sal) as total_salary, avg(sal) as average_salary
+from emp
+where deptno = 10;
+
+-- question 6: display department number, name, and location where salary of all employees is greater than average salary
+select d.deptno, d.dname, d.loc
+from dept d
+join emp e on d.deptno = e.deptno
+group by d.deptno, d.dname, d.loc
+having avg(e.sal) > (select avg(sal) from emp);
+
+-- question 7: retrieve managers and their direct reports, showing manager's name and employee's name
+select mgr.ename as manager_name, emp.ename as direct_report
+from emp emp
+join emp mgr on emp.mgr = mgr.empno;
+
+-- question 8: identify the highest-paid employee in each department and display their names, job titles, and salaries
+select e.ename, e.job, e.sal, e.deptno
+from emp e
+where e.sal = (select max(sal) 
+               from emp 
+               where deptno = e.deptno);
+
+-- question 9: list employees who have a higher salary than their respective managers
+select e.ename, e.job, e.sal
+from emp e
+join emp m on e.mgr = m.empno
+where e.sal > m.sal;
+
+-- question 10: list employees hired before their respective managers, showing employee names, hire dates, and manager's name
+select e.ename as employee_name, e.hiredate as employee_hiredate, m.ename as manager_name
+from emp e
+join emp m on e.mgr = m.empno
+where e.hiredate < m.hiredate;
