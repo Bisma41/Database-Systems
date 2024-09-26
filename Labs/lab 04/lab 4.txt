@@ -1,0 +1,50 @@
+-- task 01: display employee no, name, manager no, salary (left padded by 10 using '-') and hire date for names starting with g, a, w, or s
+select ename, empno, mgr, lpad(sal, 10, '-'), hiredate
+from emp
+where (ename like 'g%' or ename like 'a%' or ename like 'w%' or ename like 's%');
+
+-- task 02: display salary and hire date for employees whose name ends with 'n' and hire date is in february
+select sal, hiredate, to_char(hiredate, 'fm,dd,month,yyyy')
+from emp
+where ename like '%n' and to_char(hiredate, 'mon') = 'feb';
+
+-- task 03: display employee names with 'a' or 's' as second character, only three characters after it, and no manager in department 10
+select substr(ename, 1, 3)
+from emp 
+where ename like 'a_' or ename like '_s__'
+and deptno = 10
+and mgr is null;
+
+-- task 04: display employee name and experience in weeks for employees in department 20 or 30
+select ename, (sysdate - hiredate) / 7  as experience
+from emp
+where deptno = 20
+or deptno = 30;
+
+-- task 05: display employee name and number of months between today and hire date, ordered by months worked (rounded to closest whole number)
+select ename, round((sysdate - hiredate) / 12) as months_worked
+from emp
+order by months_worked;
+
+-- task 06: display department number and employee name in uppercase and lowercase for employees with manager number 7563
+select deptno, upper(ename) as uppercase, lower(ename) as lowercase
+from emp
+where mgr = 7563;
+
+-- task 07: display employee name, salary, and dream salary (5 times salary) in the format 'employee_name earns salary monthly but wants 5 times salary'
+select ename || ' earns ' || sal || ' monthly but wants ' || sal * 5 as "dream salary"
+from emp;
+
+-- task 08: display all columns of employees who do not earn commission, label as "null commission"
+select *, 'no commission' as "null commission"
+from emp
+where comm is null;
+
+-- task 09: display hisal in $99,999.00 format and losal in descending order
+select '$' || round(hisal, 2) as hisal, losal
+from salgrade 
+order by losal desc;
+
+-- task 10: display employee name twice, first with full name and second without the first letter
+select ename, substr(ename, 2) as without_first_letter
+from emp;
